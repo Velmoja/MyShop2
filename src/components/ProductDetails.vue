@@ -2,18 +2,18 @@
   <div class="product-page" v-if="product">
     <div class="product-container">
       <div class="product-image-container">
-        <img :src="product.image" alt="Product Image" class="product-image" />
+        <img :src="product.image" alt="Изображение товара" class="product-image" />
       </div>
       <div class="product-details">
         <h1 class="product-name">{{ product.name }}</h1>
         <p class="product-description">{{ product.description }}</p>
-        <p class="product-price">{{ product.price }}.руб</p>
+        <p class="product-price">{{ product.price }} ₽</p>
         <button @click="addToCart" class="add-to-cart-button">Добавить в корзину</button>
       </div>
     </div>
   </div>
   <div v-else class="product-not-found">
-    <h2>Товар не найден!!!</h2>
+    <h2>Товар не найден.</h2>
   </div>
 </template>
 
@@ -28,19 +28,20 @@ export default {
   created() {
     const productId = this.$route.params.id;
     const allProducts = [
-      { id: 1, name: "Товар 1", price: 2999, image: "https://via.placeholder.com/150", description: "Это первый продукт" },
-      { id: 2, name: "Товар 2", price: 3999, image: "https://via.placeholder.com/150", description: "Это второй продукт" },
-      { id: 3, name: "Товар 3", price: 4999, image: "https://via.placeholder.com/150", description: "Это третий продукт" },
+      { id: 1, name: "Товар 1", price: 29.99, image: "https://via.placeholder.com/150", description: "Описание товара 1" },
+      { id: 2, name: "Товар 2", price: 39.99, image: "https://via.placeholder.com/150", description: "Описание товара 2" },
+      { id: 3, name: "Товар 3", price: 49.99, image: "https://via.placeholder.com/150", description: "Описание товара 3" },
     ];
     this.product = allProducts.find(p => p.id == productId);
   },
   methods: {
     addToCart() {
-      alert("Товар добавлен в корзину!");
+      this.$emit("add-to-cart", this.product); // Передача события родительскому компоненту
     },
   },
 };
 </script>
+
 
 <style scoped>
 .product-page {

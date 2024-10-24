@@ -5,12 +5,13 @@
       <div v-for="product in products" :key="product.id" class="product-card">
         <img :src="product.image" alt="Product Image" class="product-image" />
         <h2 class="product-name">{{ product.name }}</h2>
-        <p class="product-price">{{ product.price }}.руб</p>
-        <router-link :to="'/product/' + product.id" class="details-button">Описание</router-link>
+        <p class="product-price">{{ product.price }} ₽</p>
+        <router-link :to="'/product/' + product.id" class="details-button">Подробнее</router-link>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -18,9 +19,9 @@ export default {
   data() {
     return {
       products: [
-        { id: 1, name: "Товар 1", price: 2999, image: "https://via.placeholder.com/150" },
-        { id: 2, name: "Товар 2", price: 3999, image: "https://via.placeholder.com/150" },
-        { id: 3, name: "Товар 3", price: 4999, image: "https://via.placeholder.com/150" },
+        { id: 1, name: "Product 1", price: 29.99, image: "https://via.placeholder.com/150" },
+        { id: 2, name: "Product 2", price: 39.99, image: "https://via.placeholder.com/150" },
+        { id: 3, name: "Product 3", price: 49.99, image: "https://via.placeholder.com/150" },
       ],
     };
   },

@@ -1,10 +1,21 @@
 <template>
   <div id="app">
-    <nav class="navbar">
-      <router-link to="/" class="nav-link">Каталог</router-link>
-      <router-link to="/cart" class="nav-link">Корзина</router-link>
-    </nav>
-    <router-view :cartItems="cartItems" @remove-item="removeItem" />
+    <header class="header">
+      <nav class="navbar">
+        <router-link to="/" class="nav-link">Каталог</router-link>
+        <router-link to="/cart" class="nav-link">Корзина</router-link>
+      </nav>
+    </header>
+    <main>
+      <router-view 
+        :cartItems="cartItems" 
+        @add-to-cart="addToCart" 
+        @remove-item="removeItem" 
+      />
+    </main>
+    <footer class="footer">
+      <p>&copy; 2024 MyShop. Все права защищены.</p>
+    </footer>
   </div>
 </template>
 
@@ -13,10 +24,19 @@ export default {
   name: "App",
   data() {
     return {
-      cartItems: [], 
+      cartItems: [],
     };
   },
   methods: {
+    addToCart(product) {
+      // Проверяем, что товар не был добавлен в корзину ранее
+      const itemExists = this.cartItems.find(item => item.id === product.id);
+      if (!itemExists) {
+        this.cartItems.push({ ...product }); // Клонируем объект товара для добавления в корзину
+      } else {
+        alert("Этот товар уже в корзине");
+      }
+    },
     removeItem(id) {
       this.cartItems = this.cartItems.filter(item => item.id !== id);
     },
@@ -24,17 +44,19 @@ export default {
 };
 </script>
 
+
 <style scoped>
+/* Основные стили для App.vue */
 #app {
   font-family: 'Arial', sans-serif;
-  color: #31874e;
-  background-color: #12b5b5;
+  color: #333;
+  background-color: #f9f9f9;
   margin: 0;
   padding: 0;
 }
 
 .header {
-  background-color: #275a5d;
+  background-color: #333;
   padding: 10px 0;
   text-align: center;
 }
@@ -56,7 +78,7 @@ export default {
   color: #f4a261;
 }
 
-.main {
+.main-content {
   padding: 20px;
 }
 
