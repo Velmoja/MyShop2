@@ -20,29 +20,17 @@
 </template>
 
 <script>
+import { useCartStore } from './store/cart';
+
 export default {
   name: "App",
-  data() {
-    return {
-      cartItems: [],
-    };
-  },
-  methods: {
-    addToCart(product) {
-      // Проверяем, что товар не был добавлен в корзину ранее
-      const itemExists = this.cartItems.find(item => item.id === product.id);
-      if (!itemExists) {
-        this.cartItems.push({ ...product }); // Клонируем объект товара для добавления в корзину
-      } else {
-        alert("Этот товар уже в корзине");
-      }
-    },
-    removeItem(id) {
-      this.cartItems = this.cartItems.filter(item => item.id !== id);
-    },
+  setup() {
+    const cartStore = useCartStore(); // Подключаем хранилище
+    return { cartStore };
   },
 };
 </script>
+
 
 
 <style scoped>

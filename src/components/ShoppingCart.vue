@@ -1,49 +1,38 @@
-<template> 
+<script>
+import { useCartStore } from '../store/cart';
+
+export default {
+  name: "ShoppingCart",
+  setup() {
+    const cartStore = useCartStore(); // Подключаем Pinia Store
+    return { cartStore };
+  },
+};
+</script>
+
+<template>
   <div class="cart">
     <h1 class="title">Корзина покупок</h1>
-    <div v-if="cartItems && cartItems.length === 0" class="empty-cart">
+    <div v-if="cartStore.items.length === 0" class="empty-cart">
       Ваша корзина пуста.
     </div>
     <div v-else class="cart-items">
-      <div v-for="item in cartItems" :key="item.id" class="cart-item">
+      <div v-for="item in cartStore.items" :key="item.id" class="cart-item">
         <img :src="item.image" alt="Изображение товара" class="cart-item-image" />
         <div class="cart-item-details">
           <h2>{{ item.name }}</h2>
           <p class="product-price">{{ item.price }} ₽</p>
-          <button @click="removeFromCart(item.id)" class="remove-button">Удалить</button>
+          <button @click="cartStore.removeItem(item.id)" class="remove-button">Удалить</button>
         </div>
       </div>
       <div class="cart-summary">
-        <h2>Итого: {{ totalPrice }} ₽</h2>
+        <h2>Итого: {{ cartStore.totalPrice }} ₽</h2>
         <button class="checkout-button">Оформить заказ</button>
       </div>
     </div>
   </div>
 </template>
 
-
-<script>
-export default {
-  name: "ShoppingCart",
-  props: {
-    cartItems: {
-      type: Array,
-      required: true,
-      default: () => [],
-    },
-  },
-  computed: {
-    totalPrice() {
-      return this.cartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2);
-    },
-  },
-  methods: {
-    removeFromCart(id) {
-      this.$emit("remove-item", id);
-    },
-  },
-};
-</script>
 
 <style scoped>
 .cart {

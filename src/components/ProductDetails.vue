@@ -18,30 +18,31 @@
 </template>
 
 <script>
+import { useProductsStore } from '../store/products';
+import { useCartStore } from '../store/cart';
+import { useRoute } from 'vue-router'; // Для получения параметра маршрута
+
 export default {
-  name: "ProductDetails",
-  data() {
+  name: 'ProductDetails',
+  setup() {
+    const route = useRoute();
+    const productsStore = useProductsStore(); // Подключаем хранилище товаров
+    const cartStore = useCartStore(); // Подключаем хранилище корзины
+
+    // Получаем ID товара из маршрута
+    const productId = route.params.id;
+
+    // Находим товар по ID
+    const product = productsStore.getProductById(productId);
+
+    // Возвращаем данные и методы
     return {
-      product: null,
+      product,
+      addToCart: () => cartStore.addItem(product),
     };
-  },
-  created() {
-    const productId = this.$route.params.id;
-    const allProducts = [
-      { id: 1, name: "Товар 1", price: 29.99, image: "https://via.placeholder.com/150", description: "Описание товара 1" },
-      { id: 2, name: "Товар 2", price: 39.99, image: "https://via.placeholder.com/150", description: "Описание товара 2" },
-      { id: 3, name: "Товар 3", price: 49.99, image: "https://via.placeholder.com/150", description: "Описание товара 3" },
-    ];
-    this.product = allProducts.find(p => p.id == productId);
-  },
-  methods: {
-    addToCart() {
-      this.$emit("add-to-cart", this.product); // Передача события родительскому компоненту
-    },
   },
 };
 </script>
-
 
 <style scoped>
 .product-page {
@@ -70,9 +71,8 @@ export default {
 }
 
 .product-image {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
+  width: 300px; /* Устанавливаем ширину */
+  height: 300px; /* Устанавливаем высоту */
   border-radius: 12px;
 }
 

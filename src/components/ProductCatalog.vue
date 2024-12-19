@@ -2,7 +2,7 @@
   <div class="catalog">
     <h1 class="title">Каталог товаров</h1>
     <div class="product-grid">
-      <div v-for="product in products" :key="product.id" class="product-card">
+      <div v-for="product in productsStore.products" :key="product.id" class="product-card">
         <img :src="product.image" alt="Product Image" class="product-image" />
         <h2 class="product-name">{{ product.name }}</h2>
         <p class="product-price">{{ product.price }} ₽</p>
@@ -12,18 +12,14 @@
   </div>
 </template>
 
-
 <script>
+import { useProductsStore } from '../store/products';
+
 export default {
-  name: "ProductCatalog",
-  data() {
-    return {
-      products: [
-        { id: 1, name: "Product 1", price: 29.99, image: "https://via.placeholder.com/150" },
-        { id: 2, name: "Product 2", price: 39.99, image: "https://via.placeholder.com/150" },
-        { id: 3, name: "Product 3", price: 49.99, image: "https://via.placeholder.com/150" },
-      ],
-    };
+  name: 'ProductCatalog',
+  setup() {
+    const productsStore = useProductsStore(); // Подключаем хранилище товаров
+    return { productsStore };
   },
 };
 </script>
